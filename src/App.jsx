@@ -1,13 +1,20 @@
-import { Button } from "@/components/ui/button"
-import { Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom";
+import Header from "@/components/Header";
+import { ThemeProvider } from "@/components/theme-provider";
+import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <Button>AlarQuantum</Button>
-      <Outlet/>
-    </div>
-  )
+    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+      <div className="min-h-screen">
+        <Header />
+        <main className="pt-16">
+          <Outlet />
+        </main>
+        <Footer/>
+      </div>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
