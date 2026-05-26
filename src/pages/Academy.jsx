@@ -1,9 +1,17 @@
-import React from 'react'
+import AcademyHero from "@/components/academy/AcademyHero"
+import ProgramsSection from "@/components/academy/ProgramsSection"
+import CurriculumSection from "@/components/academy/CurriculumSection"
+import AcademyTestimonials from "@/components/academy/AcademyTestimonials"
+import AcademyCta from "@/components/academy/AcademyCta"
 
-const Academy = () => {
+export default function Academy() {
   return (
-    <div>Academy</div>
+    <>
+      <AcademyHero />
+      <ProgramsSection />
+      <CurriculumSection />
+      <AcademyTestimonials />
+      <AcademyCta />
+    </>
   )
 }
-
-export default Academy
