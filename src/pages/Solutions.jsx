@@ -1,9 +1,15 @@
-import React from 'react'
+import SolutionsHero from "@/components/solutions/SolutionsHero"
+import ComparisonTable from "@/components/solutions/ComparisonTable"
+import SectorSection from "@/components/solutions/SectorSection"
+import SolutionsCta from "@/components/solutions/SolutionsCta"
 
-const Solutions = () => {
+export default function Solutions() {
   return (
-    <div>Solutions</div>
+    <>
+      <SolutionsHero />
+      <ComparisonTable />
+      <SectorSection />
+      <SolutionsCta />
+    </>
   )
 }
-
-export default Solutions

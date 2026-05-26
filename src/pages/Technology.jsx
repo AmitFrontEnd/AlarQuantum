@@ -1,9 +1,21 @@
-import React from 'react'
+import TechHero from "@/components/technology/TechHero"
+import QKDSection from "@/components/technology/QKDSection"
+import QRNGSection from "@/components/technology/QRNGSection"
+import PQCSection from "@/components/technology/PQCSection"
+import PlatformSection from "@/components/technology/PlatformSection"
+import ResearchSection from "@/components/technology/ResearchSection"
+import TechCta from "@/components/technology/TechCta"
 
-const Technology = () => {
+export default function Technology() {
   return (
-    <div>Technology</div>
+    <>
+      <TechHero />
+      <QKDSection />
+      <QRNGSection />
+      <PQCSection />
+      <PlatformSection />
+      <ResearchSection />
+      <TechCta />
+    </>
   )
 }
-
-export default Technology
