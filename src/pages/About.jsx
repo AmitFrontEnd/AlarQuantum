@@ -1,9 +1,19 @@
-import React from 'react'
+import AboutHero from "@/components/about/AboutHero"
+import MissionSection from "@/components/about/MissionSection"
+import TimelineSection from "@/components/about/TimelineSection"
+import TeamSection from "@/components/about/TeamSection"
+import ValuesSection from "@/components/about/ValuesSection"
+import AboutCta from "@/components/about/AboutCta"
 
-const About = () => {
+export default function About() {
   return (
-    <div>About</div>
+    <>
+      <AboutHero />
+      <MissionSection />
+      <TimelineSection />
+      <TeamSection />
+      <ValuesSection />
+      <AboutCta />
+    </>
   )
 }
-
-export default About

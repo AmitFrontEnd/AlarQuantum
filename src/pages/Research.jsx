@@ -1,9 +1,17 @@
-import React from 'react'
+import ResearchHero from "@/components/research/ResearchHero"
+import ResearchAreas from "@/components/research/ResearchAreas"
+import PublicationsSection from "@/components/research/PublicationsSection"
+import CollaborationsSection from "@/components/research/CollaborationsSection"
+import ResearchCta from "@/components/research/ResearchCta"
 
-const Research = () => {
+export default function Research() {
   return (
-    <div>Research</div>
+    <>
+      <ResearchHero />
+      <ResearchAreas />
+      <PublicationsSection />
+      <CollaborationsSection />
+      <ResearchCta />
+    </>
   )
 }
-
-export default Research
