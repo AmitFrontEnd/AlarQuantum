@@ -1,9 +1,13 @@
-import React from 'react'
+import ContactHero from "@/components/contact/ContactHero"
+import ContactForm from "@/components/contact/ContactForm"
+import OfficesSection from "@/components/contact/OfficesSection"
 
-const Contact = () => {
+export default function Contact() {
   return (
-    <div>Contact</div>
+    <>
+      <ContactHero />
+      <ContactForm />
+      <OfficesSection />
+    </>
   )
 }
-
-export default Contact
