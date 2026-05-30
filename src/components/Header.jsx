@@ -50,7 +50,7 @@ export default function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
             <img
-              src="./logo.webp"
+              src="./logo.png"
               alt="logo"
               className="h-14 w-auto object-contain"
             />
