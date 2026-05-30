@@ -49,23 +49,12 @@ export default function Header() {
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-white text-sm shadow-md transition-transform group-hover:scale-105"
-              style={{ background: "oklch(0.62 0.17 35)" }}
-            >
-              A
-            </div>
-            <span
-              className="font-bold text-base tracking-tight"
-              style={{
-                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                color: isDark ? "#e8f6fa" : "oklch(0.15 0.04 220)",
-              }}
-            >
-              ALARQ<span style={{ color: "oklch(0.62 0.17 35)" }}>.</span>
-            </span>
+            <img
+              src="./logo.webp"
+              alt="logo"
+              className="h-14 w-auto object-contain"
+            />
           </Link>
-
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-1">
             {NAV_LINKS.map((link) => {
@@ -133,7 +122,7 @@ export default function Header() {
             >
               Get Started
               <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-                <path d="M1 6.5h11M6.5 1l5.5 5.5-5.5 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M1 6.5h11M6.5 1l5.5 5.5-5.5 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
 
@@ -211,7 +200,7 @@ export default function Header() {
             >
               Get Started
               <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-                <path d="M1 6.5h11M6.5 1l5.5 5.5-5.5 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M1 6.5h11M6.5 1l5.5 5.5-5.5 5.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
           </motion.div>
