@@ -6,72 +6,6 @@ import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
 import { heroData } from "@/data/homeData"
 
-function ParticleCanvas({ isDark }) {
-  const canvasRef = useRef(null)
-
-  useEffect(() => {
-    const canvas = canvasRef.current
-    const ctx = canvas.getContext("2d")
-    let animId
-    let W = (canvas.width = canvas.offsetWidth)
-    let H = (canvas.height = canvas.offsetHeight)
-
-    const particles = Array.from({ length: 45 }, () => ({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.5 + 0.4,
-      dx: (Math.random() - 0.5) * 0.35,
-      dy: (Math.random() - 0.5) * 0.35,
-      o: Math.random() * 0.5 + 0.15,
-    }))
-
-    const draw = () => {
-      ctx.clearRect(0, 0, W, H)
-      const color = isDark ? "232,246,250" : "26,43,60"
-      particles.forEach((p) => {
-        p.x += p.dx
-        p.y += p.dy
-        if (p.x < 0) p.x = W
-        if (p.x > W) p.x = 0
-        if (p.y < 0) p.y = H
-        if (p.y > H) p.y = 0
-        ctx.beginPath()
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(${color},${p.o})`
-        ctx.fill()
-      })
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x
-          const dy = particles[i].y - particles[j].y
-          const dist = Math.sqrt(dx * dx + dy * dy)
-          if (dist < 110) {
-            ctx.beginPath()
-            ctx.moveTo(particles[i].x, particles[i].y)
-            ctx.lineTo(particles[j].x, particles[j].y)
-            ctx.strokeStyle = `rgba(${color},${0.07 * (1 - dist / 110)})`
-            ctx.lineWidth = 0.6
-            ctx.stroke()
-          }
-        }
-      }
-      animId = requestAnimationFrame(draw)
-    }
-
-    draw()
-    const onResize = () => {
-      W = canvas.width = canvas.offsetWidth
-      H = canvas.height = canvas.offsetHeight
-    }
-    window.addEventListener("resize", onResize)
-    return () => {
-      cancelAnimationFrame(animId)
-      window.removeEventListener("resize", onResize)
-    }
-  }, [isDark])
-
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />
-}
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -85,7 +19,6 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
-      <ParticleCanvas isDark={isDark} />
 
       {/* Glow blobs */}
       <div
@@ -103,34 +36,16 @@ export default function HeroSection() {
         {/* Badge */}
         <motion.div {...fadeUp(0)} className="w-full flex justify-center mb-6 px-4">
           <Badge
-            className="
-      max-w-[92vw]
-      px-4
-      py-2
-      text-[10px]
-      sm:text-xs
-      font-semibold
-      tracking-wide
-      uppercase
-      rounded-2xl
-      border
-      text-center
-      whitespace-normal
-      break-all
-      leading-relaxed
-    "
+            className="max-w-[92vw] px-4 py-2 text-[10px] sm:text-xs font-semibold tracking-wide uppercase rounded-2xl border text-center whitespace-normal break-all leading-relaxed"
             style={{
               fontFamily: "'Plus Jakarta Sans', sans-serif",
-              background: isDark
-                ? "rgba(232,98,42,0.15)"
-                : "rgba(232,98,42,0.1)",
+              background: isDark ? "rgba(232,98,42,0.15)" : "rgba(232,98,42,0.1)",
               borderColor: "rgba(232,98,42,0.35)",
               color: "oklch(0.62 0.17 35)",
               display: "block",
             }}
           >
             <span className="inline-block mr-2 w-1.5 h-1.5 rounded-full bg-[oklch(0.62_0.17_35)] animate-pulse align-middle" />
-
             {heroData.badge}
           </Badge>
         </motion.div>
