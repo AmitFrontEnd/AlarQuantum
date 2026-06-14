@@ -1,10 +1,14 @@
+import { useSanityData } from "@/hooks/useSanityData"
+import { trustedByData as fallbackData } from "@/data/homeData"
 import { motion } from "framer-motion"
 import { useTheme } from "@/components/theme-provider"
-import { trustedByData } from "@/data/homeData"
 
 export default function TrustedBy() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
+  const data = useSanityData("trustedBy", fallbackData)
+
+  if (!data) return null
 
   return (
     <section className="py-14 relative overflow-hidden">
@@ -29,11 +33,11 @@ export default function TrustedBy() {
             color: isDark ? "rgba(232,246,250,0.35)" : "oklch(0.5 0.04 220)",
           }}
         >
-          {trustedByData.heading}
+          {data.heading}
         </motion.p>
 
         <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
-          {trustedByData.logos.map((logo, i) => (
+          {data.logos?.map((logo, i) => (
             <motion.div
               key={logo.name}
               initial={{ opacity: 0, y: 10 }}

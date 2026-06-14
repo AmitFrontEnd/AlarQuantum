@@ -1,11 +1,16 @@
+import { useSanityData } from "@/hooks/useSanityData"
+import { pqcData as fallbackData } from "@/data/technologyData"
 import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { useTheme } from "@/components/theme-provider"
-import { pqcData } from "@/data/technologyData"
 
 export default function PQCSection() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
+  const data = useSanityData("pqc", fallbackData)
+
+  if (!data) return null
+
   const card = { background: isDark ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.7)", border: isDark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(26,43,60,0.1)", backdropFilter: "blur(12px)" }
 
   return (
@@ -18,24 +23,23 @@ export default function PQCSection() {
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <Badge className="mb-3 px-4 py-1.5 text-xs font-semibold tracking-wider uppercase rounded-full border"
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", background: isDark ? "rgba(139,92,246,0.15)" : "rgba(139,92,246,0.1)", borderColor: "rgba(139,92,246,0.3)", color: "#8B5CF6" }}>
-              {pqcData.badge} — {pqcData.tag}
+              {data.badge} — {data.tag}
             </Badge>
           </motion.div>
           <motion.h2 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
             className="text-2xl sm:text-4xl md:text-5xl font-bold max-w-3xl mx-auto leading-tight"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isDark ? "#e8f6fa" : "oklch(0.12 0.04 220)" }}>
-            {pqcData.heading}
+            {data.heading}
           </motion.h2>
           <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
             className="mt-4 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isDark ? "rgba(232,246,250,0.55)" : "oklch(0.38 0.04 220)" }}>
-            {pqcData.subtext}
+            {data.subtext}
           </motion.p>
         </div>
 
-        {/* Algorithm cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
-          {pqcData.algorithms.map((algo, i) => (
+          {data.algorithms?.map((algo, i) => (
             <motion.div key={i}
               initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
               whileHover={{ y: -4 }}
@@ -66,16 +70,14 @@ export default function PQCSection() {
           ))}
         </div>
 
-        {/* Migration Roadmap */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="rounded-2xl p-6 sm:p-10" style={card}>
           <p className="text-xs font-semibold tracking-widest uppercase mb-8 text-center"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#8B5CF6" }}>PQC Migration Roadmap</p>
           <div className="flex flex-col md:flex-row items-start gap-6 md:gap-0">
-            {pqcData.migrationSteps.map((step, i) => (
+            {data.migrationSteps?.map((step, i) => (
               <div key={i} className="flex-1 flex flex-col md:items-center md:text-center gap-3 relative">
-                {/* Connector */}
-                {i < pqcData.migrationSteps.length - 1 && (
+                {i < data.migrationSteps?.length - 1 && (
                   <div className="hidden md:block absolute top-5 left-1/2 w-full h-px"
                     style={{ background: "linear-gradient(90deg, #8B5CF6, rgba(139,92,246,0.2))" }} />
                 )}

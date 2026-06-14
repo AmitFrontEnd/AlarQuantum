@@ -1,16 +1,15 @@
+import { useSanityData } from "@/hooks/useSanityData"
+import { statsData as fallbackData } from "@/data/homeData"
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion"
 import { useEffect, useRef } from "react"
 import { useTheme } from "@/components/theme-provider"
-import { statsData } from "@/data/homeData"
 
-// Animated counter
 function Counter({ value }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true })
   const motionVal = useMotionValue(0)
   const spring = useSpring(motionVal, { duration: 1800, bounce: 0 })
 
-  // Extract number from string like "10+", "99.99%", "256-bit", "3ms"
   const num = parseFloat(value.replace(/[^0-9.]/g, ""))
   const suffix = value.replace(/[0-9.]/g, "")
   const isDecimal = value.includes(".")
@@ -22,7 +21,6 @@ function Counter({ value }) {
     }
   }, [isInView, num, motionVal, spring])
 
-  // For non-numeric values like "256-bit", "24/7" just show as-is
   if (isNaN(num)) {
     return <span ref={ref}>{value}</span>
   }
@@ -63,6 +61,9 @@ function AnimatedNum({ from, to, isDecimal }) {
 export default function StatsSection() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
+  const statsData = useSanityData("stats", fallbackData)
+
+  if (!statsData) return null
 
   return (
     <section className="py-20 relative overflow-hidden">

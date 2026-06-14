@@ -9,11 +9,13 @@ import Solutions from "./pages/Solutions.jsx";
 import Academy from "./pages/Academy.jsx";
 import Research from "./pages/Research.jsx";
 import Contact from "./pages/Contact.jsx";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <NotFound />,
     children: [
       {
         path: "/",

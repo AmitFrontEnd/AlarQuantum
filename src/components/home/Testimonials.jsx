@@ -1,15 +1,20 @@
+import { useSanityData } from "@/hooks/useSanityData"
+import { testimonialsData as fallbackData } from "@/data/homeData"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { useTheme } from "@/components/theme-provider"
-import { testimonialsData } from "@/data/homeData"
 
 export default function Testimonials() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
+  const data = useSanityData("testimonials", fallbackData)
   const [active, setActive] = useState(0)
-  const items = testimonialsData.items
+
+  if (!data) return null
+
+  const items = data.items || []
 
   return (
     <section className="py-24 relative overflow-hidden">
@@ -23,7 +28,6 @@ export default function Testimonials() {
       />
 
       <div className="relative max-w-4xl mx-auto px-6">
-        {/* Header */}
         <div className="text-center mb-14">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -39,7 +43,7 @@ export default function Testimonials() {
                 color: "oklch(0.62 0.17 35)",
               }}
             >
-              {testimonialsData.badge}
+              {data.badge}
             </Badge>
           </motion.div>
           <motion.h2
@@ -53,11 +57,10 @@ export default function Testimonials() {
               color: isDark ? "#e8f6fa" : "oklch(0.12 0.04 220)",
             }}
           >
-            {testimonialsData.heading}
+            {data.heading}
           </motion.h2>
         </div>
 
-        {/* Quote card */}
         <div className="relative min-h-[220px] flex items-center justify-center">
           <AnimatePresence mode="wait">
             <motion.div
@@ -74,7 +77,6 @@ export default function Testimonials() {
                 boxShadow: isDark ? "0 8px 40px rgba(0,0,0,0.3)" : "0 8px 40px rgba(26,43,60,0.08)",
               }}
             >
-              {/* Quote mark */}
               <div
                 className="text-6xl font-serif leading-none mb-4 opacity-40"
                 style={{ color: "oklch(0.62 0.17 35)" }}
@@ -90,7 +92,7 @@ export default function Testimonials() {
                   fontStyle: "italic",
                 }}
               >
-                {items[active].quote}
+                {items[active]?.quote}
               </p>
 
               <div className="flex items-center justify-center gap-3">
@@ -99,7 +101,7 @@ export default function Testimonials() {
                     className="text-xs font-bold text-white"
                     style={{ background: "oklch(0.62 0.17 35)" }}
                   >
-                    {items[active].initials}
+                    {items[active]?.initials}
                   </AvatarFallback>
                 </Avatar>
                 <div className="text-left">
@@ -110,7 +112,7 @@ export default function Testimonials() {
                       color: isDark ? "#e8f6fa" : "oklch(0.15 0.04 220)",
                     }}
                   >
-                    {items[active].name}
+                    {items[active]?.name}
                   </p>
                   <p
                     className="text-xs"
@@ -119,7 +121,7 @@ export default function Testimonials() {
                       color: isDark ? "rgba(232,246,250,0.45)" : "oklch(0.45 0.04 220)",
                     }}
                   >
-                    {items[active].role}
+                    {items[active]?.role}
                   </p>
                 </div>
               </div>
@@ -127,7 +129,6 @@ export default function Testimonials() {
           </AnimatePresence>
         </div>
 
-        {/* Dots */}
         <div className="flex items-center justify-center gap-2 mt-8">
           {items.map((_, i) => (
             <button

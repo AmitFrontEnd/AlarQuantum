@@ -1,16 +1,19 @@
+import { useSanityData } from "@/hooks/useSanityData"
+import { featuresData as fallbackData } from "@/data/homeData"
 import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { useTheme } from "@/components/theme-provider"
-import { featuresData } from "@/data/homeData"
 
 export default function FeaturesSection() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
+  const data = useSanityData("features", fallbackData)
+
+  if (!data) return null
 
   return (
     <section className="py-24 relative overflow-hidden">
-      {/* bg accent */}
       <div
         className="pointer-events-none absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-20"
         style={{
@@ -21,7 +24,6 @@ export default function FeaturesSection() {
       />
 
       <div className="relative max-w-7xl mx-auto px-6">
-        {/* Header */}
         <div className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -37,7 +39,7 @@ export default function FeaturesSection() {
                 color: "oklch(0.62 0.17 35)",
               }}
             >
-              {featuresData.badge}
+              {data.badge}
             </Badge>
           </motion.div>
           <motion.h2
@@ -51,7 +53,7 @@ export default function FeaturesSection() {
               color: isDark ? "#e8f6fa" : "oklch(0.12 0.04 220)",
             }}
           >
-            {featuresData.heading}
+            {data.heading}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -64,13 +66,12 @@ export default function FeaturesSection() {
               color: isDark ? "rgba(232,246,250,0.55)" : "oklch(0.38 0.04 220)",
             }}
           >
-            {featuresData.subtext}
+            {data.subtext}
           </motion.p>
         </div>
 
-        {/* Cards grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {featuresData.cards.map((card, i) => (
+          {data.cards?.map((card, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 24 }}
@@ -91,7 +92,6 @@ export default function FeaturesSection() {
                 }}
               >
                 <CardContent className="p-6 flex flex-col gap-4">
-                  {/* Icon */}
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl transition-transform group-hover:scale-110"
                     style={{
@@ -100,8 +100,6 @@ export default function FeaturesSection() {
                   >
                     {card.icon}
                   </div>
-
-                  {/* Tag */}
                   <span
                     className="text-xs font-semibold tracking-wider uppercase"
                     style={{
@@ -111,8 +109,6 @@ export default function FeaturesSection() {
                   >
                     {card.tag}
                   </span>
-
-                  {/* Title */}
                   <h3
                     className="text-base font-bold leading-snug"
                     style={{
@@ -122,8 +118,6 @@ export default function FeaturesSection() {
                   >
                     {card.title}
                   </h3>
-
-                  {/* Description */}
                   <p
                     className="text-sm leading-relaxed"
                     style={{
@@ -133,8 +127,6 @@ export default function FeaturesSection() {
                   >
                     {card.description}
                   </p>
-
-                  {/* Arrow */}
                   <div className="mt-auto pt-2">
                     <span
                       className="text-xs font-semibold flex items-center gap-1 transition-gap group-hover:gap-2"

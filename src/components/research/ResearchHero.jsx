@@ -1,20 +1,23 @@
+import { useSanityData } from "@/hooks/useSanityData"
+import { researchHeroData as fallbackData } from "@/data/researchData"
 import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { useTheme } from "@/components/theme-provider"
-import { researchHeroData } from "@/data/researchData"
 
 export default function ResearchHero() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
+  const data = useSanityData("researchHero", fallbackData)
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] })
   const y = useTransform(scrollYProgress, [0, 1], [0, 100])
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0])
 
+  if (!data) return null
+
   return (
     <section ref={ref} className="relative min-h-[88vh] flex flex-col justify-center overflow-hidden">
-      {/* Animated constellation bg */}
       <div className="pointer-events-none absolute inset-0">
         {[...Array(30)].map((_, i) => (
           <motion.div key={i}
@@ -31,7 +34,6 @@ export default function ResearchHero() {
         ))}
       </div>
 
-      {/* Parallax glow */}
       <motion.div style={{ y }} className="pointer-events-none absolute inset-0">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full opacity-20"
           style={{ background: isDark ? "radial-gradient(ellipse, rgba(232,98,42,0.5) 0%, transparent 60%)" : "radial-gradient(ellipse, rgba(255,255,255,0.95) 0%, transparent 60%)" }} />
@@ -46,37 +48,35 @@ export default function ResearchHero() {
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", background: isDark ? "rgba(232,98,42,0.15)" : "rgba(232,98,42,0.1)", borderColor: "rgba(232,98,42,0.4)", color: "oklch(0.62 0.17 35)" }}>
             <motion.span className="w-2 h-2 rounded-full mr-2 inline-block" style={{ background: "oklch(0.62 0.17 35)" }}
               animate={{ scale: [1, 1.6, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
-            {researchHeroData.badge}
+            {data.badge}
           </Badge>
         </motion.div>
 
-        {/* Heading with stagger */}
         <motion.div initial={{ opacity: 0, y: 40, filter: "blur(12px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.9, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}>
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.08]"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isDark ? "#e8f6fa" : "oklch(0.12 0.04 220)" }}>
-            {researchHeroData.heading}
+            {data.heading}
           </h1>
         </motion.div>
         <motion.div initial={{ opacity: 0, y: 40, filter: "blur(12px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.9, delay: 0.28, ease: [0.25, 0.46, 0.45, 0.94] }}>
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.08] mb-6"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "oklch(0.62 0.17 35)" }}>
-            {researchHeroData.headingAccent}
+            {data.headingAccent}
           </h1>
         </motion.div>
 
         <motion.p initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}
           className="text-sm sm:text-base md:text-lg max-w-2xl leading-relaxed mb-14"
           style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isDark ? "rgba(232,246,250,0.6)" : "oklch(0.35 0.04 220)" }}>
-          {researchHeroData.subtext}
+          {data.subtext}
         </motion.p>
 
-        {/* Stats */}
         <motion.div initial="hidden" animate="visible"
           variants={{ visible: { transition: { staggerChildren: 0.1, delayChildren: 0.6 } } }}
           className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-2xl">
-          {researchHeroData.stats.map((stat, i) => (
+          {data.stats?.map((stat, i) => (
             <motion.div key={i}
               variants={{ hidden: { opacity: 0, y: 30, scale: 0.9 }, visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6 } } }}
               whileHover={{ scale: 1.06, y: -4 }}
@@ -89,7 +89,6 @@ export default function ResearchHero() {
         </motion.div>
       </motion.div>
 
-      {/* Scroll mouse */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.4 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2">
         <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}

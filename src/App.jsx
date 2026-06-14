@@ -3,6 +3,7 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import ParticleBackground from "@/components/ParticleBackground"
 import { ThemeProvider } from "@/components/theme-provider"
+import ScrollToTop from "./components/ScrollToTop"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Outlet />
         </main>
         <Footer />
+        <ScrollToTop />
       </div>
     </ThemeProvider>
   )

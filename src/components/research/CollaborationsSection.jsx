@@ -1,7 +1,8 @@
+import { useSanityData } from "@/hooks/useSanityData"
+import { collaborationsData as fallbackData } from "@/data/researchData"
 import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { useTheme } from "@/components/theme-provider"
-import { collaborationsData } from "@/data/researchData"
 
 const typeColors = { Academic: "#3B82F6", Government: "oklch(0.62 0.17 35)", Defence: "#EF4444", Industry: "#8B5CF6" }
 const typeColorRaw = { Academic: "rgba(59,130,246,", Government: "rgba(232,98,42,", Defence: "rgba(239,68,68,", Industry: "rgba(139,92,246," }
@@ -9,6 +10,9 @@ const typeColorRaw = { Academic: "rgba(59,130,246,", Government: "rgba(232,98,42
 export default function CollaborationsSection() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
+  const data = useSanityData("collaborations", fallbackData)
+
+  if (!data) return null
 
   return (
     <section className="py-28 relative overflow-hidden">
@@ -20,18 +24,18 @@ export default function CollaborationsSection() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <Badge className="mb-4 px-4 py-1.5 text-xs font-bold tracking-widest uppercase rounded-full border"
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", background: isDark ? "rgba(232,98,42,0.15)" : "rgba(232,98,42,0.1)", borderColor: "rgba(232,98,42,0.3)", color: "oklch(0.62 0.17 35)" }}>
-              {collaborationsData.badge}
+              {data.badge}
             </Badge>
           </motion.div>
           <motion.h2 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
             className="text-3xl sm:text-5xl font-bold"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isDark ? "#e8f6fa" : "oklch(0.12 0.04 220)" }}>
-            {collaborationsData.heading}
+            {data.heading}
           </motion.h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {collaborationsData.partners.map((partner, i) => (
+          {data.partners?.map((partner, i) => (
             <motion.div key={i}
               initial={{ opacity: 0, y: 40, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -46,7 +50,6 @@ export default function CollaborationsSection() {
               }}>
 
               <div className="flex items-center justify-between">
-                {/* Partner name */}
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-sm"
                   style={{ background: `${typeColorRaw[partner.type]}0.12)`, color: typeColors[partner.type], fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                   {partner.name.slice(0, 2)}
@@ -66,7 +69,6 @@ export default function CollaborationsSection() {
                 </p>
               </div>
 
-              {/* Hover line */}
               <motion.div className="h-0.5 rounded-full mt-auto"
                 style={{ background: `linear-gradient(90deg, ${typeColors[partner.type]}, transparent)` }}
                 initial={{ scaleX: 0, originX: 0 }}

@@ -1,15 +1,18 @@
+import { useSanityData } from "@/hooks/useSanityData"
+import { howItWorksData as fallbackData } from "@/data/homeData"
 import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { useTheme } from "@/components/theme-provider"
-import { howItWorksData } from "@/data/homeData"
 
 export default function HowItWorks() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
+  const data = useSanityData("howItWorks", fallbackData)
+
+  if (!data) return null
 
   return (
     <section className="py-24 relative overflow-hidden">
-      {/* bg blob left */}
       <div
         className="pointer-events-none absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full opacity-20"
         style={{
@@ -20,7 +23,6 @@ export default function HowItWorks() {
       />
 
       <div className="relative max-w-7xl mx-auto px-6">
-        {/* Header */}
         <div className="text-center mb-20">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -36,7 +38,7 @@ export default function HowItWorks() {
                 color: "oklch(0.62 0.17 35)",
               }}
             >
-              {howItWorksData.badge}
+              {data.badge}
             </Badge>
           </motion.div>
           <motion.h2
@@ -50,13 +52,11 @@ export default function HowItWorks() {
               color: isDark ? "#e8f6fa" : "oklch(0.12 0.04 220)",
             }}
           >
-            {howItWorksData.heading}
+            {data.heading}
           </motion.h2>
         </div>
 
-        {/* Steps */}
         <div className="relative flex flex-col md:flex-row items-start gap-8 md:gap-0">
-          {/* Connector line — desktop only */}
           <div
             className="hidden md:block absolute top-10 left-[16.66%] right-[16.66%] h-px"
             style={{
@@ -66,7 +66,7 @@ export default function HowItWorks() {
             }}
           />
 
-          {howItWorksData.steps.map((step, i) => (
+          {data.steps?.map((step, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 28 }}
@@ -75,7 +75,6 @@ export default function HowItWorks() {
               transition={{ delay: i * 0.15 }}
               className="flex-1 flex flex-col items-center text-center px-6 relative"
             >
-              {/* Number circle */}
               <div
                 className="relative w-20 h-20 rounded-full flex items-center justify-center mb-6 z-10"
                 style={{

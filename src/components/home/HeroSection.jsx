@@ -1,11 +1,10 @@
-import { useEffect, useRef } from "react"
+import { useSanityData } from "@/hooks/useSanityData"
+import { heroData as fallbackData } from "@/data/homeData"
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
-import { heroData } from "@/data/homeData"
-
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -16,11 +15,12 @@ const fadeUp = (delay = 0) => ({
 export default function HeroSection() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
+  const heroData = useSanityData("hero", fallbackData)
+
+  if (!heroData) return null
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden">
-
-      {/* Glow blobs */}
       <div
         className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[400px] md:w-[700px] h-[400px] rounded-full opacity-40"
         style={{
@@ -30,10 +30,7 @@ export default function HeroSection() {
         }}
       />
 
-      {/* Content */}
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 py-20 sm:py-24 flex flex-col items-center text-center">
-
-        {/* Badge */}
         <motion.div {...fadeUp(0)} className="w-full flex justify-center mb-6 px-4">
           <Badge
             className="max-w-[92vw] px-4 py-2 text-[10px] sm:text-xs font-semibold tracking-wide uppercase rounded-2xl border text-center whitespace-normal break-all leading-relaxed"
@@ -50,7 +47,6 @@ export default function HeroSection() {
           </Badge>
         </motion.div>
 
-        {/* Heading */}
         <motion.h1
           {...fadeUp(0.1)}
           className="text-[1.75rem] leading-[1.15] sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight w-full"
@@ -65,7 +61,6 @@ export default function HeroSection() {
           </span>
         </motion.h1>
 
-        {/* Subtext */}
         <motion.p
           {...fadeUp(0.2)}
           className="mt-5 text-sm sm:text-base md:text-lg w-full max-w-2xl leading-relaxed"
@@ -77,7 +72,6 @@ export default function HeroSection() {
           {heroData.subtext}
         </motion.p>
 
-        {/* CTA Buttons */}
         <motion.div
           {...fadeUp(0.3)}
           className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-xs sm:max-w-none"
@@ -91,7 +85,7 @@ export default function HeroSection() {
               fontFamily: "'Plus Jakarta Sans', sans-serif",
             }}
           >
-            <Link to={heroData.ctaPrimary.href}>{heroData.ctaPrimary.label}</Link>
+            <Link to={heroData.ctaPrimaryHref}>{heroData.ctaPrimaryLabel}</Link>
           </Button>
 
           <Button
@@ -105,11 +99,10 @@ export default function HeroSection() {
               color: isDark ? "#e8f6fa" : "oklch(0.15 0.04 220)",
             }}
           >
-            <Link to={heroData.ctaSecondary.href}>{heroData.ctaSecondary.label}</Link>
+            <Link to={heroData.ctaSecondaryHref}>{heroData.ctaSecondaryLabel}</Link>
           </Button>
         </motion.div>
 
-        {/* Stats grid */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -123,7 +116,7 @@ export default function HeroSection() {
             gap: "1px",
           }}
         >
-          {heroData.stats.map((stat, i) => (
+          {heroData.stats?.map((stat, i) => (
             <div
               key={i}
               className="flex flex-col items-center justify-center py-4 px-2"
@@ -156,7 +149,6 @@ export default function HeroSection() {
           ))}
         </motion.div>
 
-        {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

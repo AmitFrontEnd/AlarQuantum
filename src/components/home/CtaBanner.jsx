@@ -1,12 +1,16 @@
+import { useSanityData } from "@/hooks/useSanityData"
+import { ctaBannerData as fallbackData } from "@/data/homeData"
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { useTheme } from "@/components/theme-provider"
-import { ctaBannerData } from "@/data/homeData"
 
 export default function CtaBanner() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
+  const data = useSanityData("ctaBanner", fallbackData)
+
+  if (!data) return null
 
   return (
     <section className="py-24 px-6">
@@ -28,7 +32,6 @@ export default function CtaBanner() {
               : "0 20px 60px rgba(26,43,60,0.12)",
           }}
         >
-          {/* Glow */}
           <div
             className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] opacity-40"
             style={{
@@ -36,7 +39,6 @@ export default function CtaBanner() {
             }}
           />
 
-          {/* Grid pattern overlay */}
           <div
             className="pointer-events-none absolute inset-0 opacity-5"
             style={{
@@ -59,7 +61,7 @@ export default function CtaBanner() {
                 wordBreak: "break-word",
               }}
             >
-              {ctaBannerData.heading}
+              {data.heading}
             </motion.h2>
 
             <motion.p
@@ -73,7 +75,7 @@ export default function CtaBanner() {
                 color: isDark ? "rgba(232,246,250,0.6)" : "oklch(0.35 0.04 220)",
               }}
             >
-              {ctaBannerData.subtext}
+              {data.subtext}
             </motion.p>
 
             <motion.div
@@ -92,9 +94,7 @@ export default function CtaBanner() {
                   fontFamily: "'Plus Jakarta Sans', sans-serif",
                 }}
               >
-                <Link to={ctaBannerData.ctaPrimary.href}>
-                  {ctaBannerData.ctaPrimary.label}
-                </Link>
+                <Link to={data.ctaPrimaryHref}>{data.ctaPrimaryLabel}</Link>
               </Button>
 
               <Button
@@ -109,9 +109,7 @@ export default function CtaBanner() {
                   backdropFilter: "blur(8px)",
                 }}
               >
-                <Link to={ctaBannerData.ctaSecondary.href}>
-                  {ctaBannerData.ctaSecondary.label}
-                </Link>
+                <Link to={data.ctaSecondaryHref}>{data.ctaSecondaryLabel}</Link>
               </Button>
             </motion.div>
           </div>

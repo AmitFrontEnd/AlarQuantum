@@ -1,11 +1,15 @@
+import { useSanityData } from "@/hooks/useSanityData"
+import { comparisonData as fallbackData } from "@/data/solutionsData"
 import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { useTheme } from "@/components/theme-provider"
-import { comparisonData } from "@/data/solutionsData"
 
 export default function ComparisonTable() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
+  const data = useSanityData("comparison", fallbackData)
+
+  if (!data) return null
 
   return (
     <section className="py-24 relative overflow-hidden">
@@ -17,18 +21,18 @@ export default function ComparisonTable() {
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <Badge className="mb-4 px-4 py-1.5 text-xs font-semibold tracking-wider uppercase rounded-full border"
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", background: isDark ? "rgba(232,98,42,0.15)" : "rgba(232,98,42,0.1)", borderColor: "rgba(232,98,42,0.3)", color: "oklch(0.62 0.17 35)" }}>
-              {comparisonData.badge}
+              {data.badge}
             </Badge>
           </motion.div>
           <motion.h2 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
             className="text-2xl sm:text-4xl md:text-5xl font-bold"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isDark ? "#e8f6fa" : "oklch(0.12 0.04 220)" }}>
-            {comparisonData.heading}
+            {data.heading}
           </motion.h2>
           <motion.p initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
             className="mt-4 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isDark ? "rgba(232,246,250,0.55)" : "oklch(0.38 0.04 220)" }}>
-            {comparisonData.subtext}
+            {data.subtext}
           </motion.p>
         </div>
 
@@ -36,7 +40,6 @@ export default function ComparisonTable() {
           className="rounded-2xl overflow-hidden"
           style={{ border: isDark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(26,43,60,0.1)" }}>
 
-          {/* Table header */}
           <div className="grid grid-cols-3 text-xs font-bold tracking-wider uppercase"
             style={{ background: isDark ? "rgba(255,255,255,0.06)" : "rgba(26,43,60,0.06)" }}>
             <div className="px-4 sm:px-6 py-4" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isDark ? "rgba(232,246,250,0.4)" : "oklch(0.5 0.04 220)" }}>Feature</div>
@@ -44,8 +47,7 @@ export default function ComparisonTable() {
             <div className="px-4 sm:px-6 py-4 text-center" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: "oklch(0.62 0.17 35)" }}>⚛️ Alar Quantum</div>
           </div>
 
-          {/* Rows */}
-          {comparisonData.rows.map((row, i) => (
+          {data.rows?.map((row, i) => (
             <motion.div key={i}
               initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
               className="grid grid-cols-3 border-t text-xs sm:text-sm"

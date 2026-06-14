@@ -1,11 +1,16 @@
+import { useSanityData } from "@/hooks/useSanityData"
+import { researchData as fallbackData } from "@/data/technologyData"
 import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { useTheme } from "@/components/theme-provider"
-import { researchData } from "@/data/technologyData"
 
 export default function ResearchSection() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
+  const data = useSanityData("research", fallbackData)
+
+  if (!data) return null
+
   const card = { background: isDark ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.7)", border: isDark ? "1px solid rgba(255,255,255,0.07)" : "1px solid rgba(26,43,60,0.1)", backdropFilter: "blur(12px)" }
 
   const tagColors = { QKD: "oklch(0.62 0.17 35)", QRNG: "#3B82F6", PQC: "#8B5CF6", "Threat Research": "#EF4444" }
@@ -17,25 +22,25 @@ export default function ResearchSection() {
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <Badge className="mb-3 px-4 py-1.5 text-xs font-semibold tracking-wider uppercase rounded-full border"
               style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", background: isDark ? "rgba(232,98,42,0.15)" : "rgba(232,98,42,0.1)", borderColor: "rgba(232,98,42,0.3)", color: "oklch(0.62 0.17 35)" }}>
-              {researchData.badge}
+              {data.badge}
             </Badge>
           </motion.div>
           <motion.h2 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
             className="text-2xl sm:text-4xl md:text-5xl font-bold"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isDark ? "#e8f6fa" : "oklch(0.12 0.04 220)" }}>
-            {researchData.heading}
+            {data.heading}
           </motion.h2>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {researchData.papers.map((paper, i) => (
+          {data.papers?.map((paper, i) => (
             <motion.div key={i}
               initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
               whileHover={{ y: -3 }}
               className="rounded-2xl p-6 flex flex-col gap-4 group cursor-pointer transition-all duration-300" style={card}>
               <div className="flex items-start justify-between gap-3">
                 <span className="text-[10px] font-bold px-2.5 py-1 rounded-full flex-shrink-0"
-                  style={{ background: `${tagColors[paper.tag]}15`, color: tagColors[paper.tag], fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
+                  style={{ background: `${tagColors[paper.tag] || "oklch(0.62 0.17 35)"}15`, color: tagColors[paper.tag] || "oklch(0.62 0.17 35)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                   {paper.tag}
                 </span>
                 <span className="text-[10px] font-semibold" style={{ color: isDark ? "rgba(232,246,250,0.35)" : "oklch(0.55 0.04 220)", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>

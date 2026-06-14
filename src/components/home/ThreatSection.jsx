@@ -1,11 +1,15 @@
+import { useSanityData } from "@/hooks/useSanityData"
+import { threatData as fallbackData } from "@/data/homeData"
 import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { useTheme } from "@/components/theme-provider"
-import { threatData } from "@/data/homeData"
 
 export default function ThreatSection() {
   const { theme } = useTheme()
   const isDark = theme === "dark"
+  const data = useSanityData("threat", fallbackData)
+
+  if (!data) return null
 
   return (
     <section className="py-24 relative overflow-hidden">
@@ -19,7 +23,6 @@ export default function ThreatSection() {
       />
 
       <div className="relative max-w-7xl mx-auto px-6">
-        {/* Header */}
         <div className="text-center mb-16">
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <Badge
@@ -31,7 +34,7 @@ export default function ThreatSection() {
                 color: "oklch(0.62 0.17 35)",
               }}
             >
-              {threatData.badge}
+              {data.badge}
             </Badge>
           </motion.div>
           <motion.h2
@@ -39,20 +42,19 @@ export default function ThreatSection() {
             className="text-3xl md:text-4xl lg:text-5xl font-bold max-w-3xl mx-auto leading-tight"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isDark ? "#e8f6fa" : "oklch(0.12 0.04 220)" }}
           >
-            {threatData.heading}
+            {data.heading}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
             className="mt-4 text-base max-w-2xl mx-auto"
             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isDark ? "rgba(232,246,250,0.55)" : "oklch(0.38 0.04 220)" }}
           >
-            {threatData.subtext}
+            {data.subtext}
           </motion.p>
         </div>
 
-        {/* Quote cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {threatData.items.map((item, i) => (
+          {data.items?.map((item, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 24 }}
@@ -66,16 +68,13 @@ export default function ThreatSection() {
                 backdropFilter: "blur(12px)",
               }}
             >
-              {/* Quote mark */}
               <span className="text-4xl font-serif opacity-30" style={{ color: "oklch(0.62 0.17 35)", lineHeight: 1 }}>"</span>
-
               <p
                 className="text-sm leading-relaxed flex-1 italic"
                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", color: isDark ? "rgba(232,246,250,0.75)" : "oklch(0.25 0.04 220)" }}
               >
                 {item.quote}
               </p>
-
               <div
                 className="pt-4 text-xs font-semibold tracking-wide"
                 style={{
